@@ -27,7 +27,7 @@ class Project extends Model
     {
         return $this->belongsToMany(
             User::class,
-            'user_project',
+            'project_user',
             'project_id',
             'user_id'
         )->withPivot('role', 'contribution_hours');
