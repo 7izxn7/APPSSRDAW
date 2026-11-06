@@ -50,29 +50,31 @@
                         {{-- Acciones --}}
                         <div class="mt-4 flex gap-3">
 
-                            <a href="{{ route('projects.show', $project) }}"
-                               class="text-blue-600 hover:underline">
+                            {{-- Todos pueden ver el proyecto --}}
+                            <a href="{{ route('projects.show', $project) }}" class="text-blue-600 hover:underline">
                                 Ver
                             </a>
 
-                            <a href="{{ route('projects.edit', $project) }}"
-                               class="text-yellow-600 hover:underline">
-                                Editar
-                            </a>
+                            {{-- Solo el propietario puede editar o eliminar --}}
+                            @if ($project->user_id === auth()->id())
 
-                            <form action="{{ route('projects.destroy', $project) }}"
-                                  method="POST"
-                                  onsubmit="return confirm('¿Seguro que quieres eliminar este proyecto?')">
+                                <a href="{{ route('projects.edit', $project) }}" class="text-yellow-600 hover:underline">
+                                    Editar
+                                </a>
 
-                                @csrf
-                                @method('DELETE')
+                                <form action="{{ route('projects.destroy', $project) }}" method="POST"
+                                    onsubmit="return confirm('¿Seguro que quieres eliminar este proyecto?')">
 
-                                <button type="submit"
-                                        class="text-red-600 hover:underline">
-                                    Eliminar
-                                </button>
+                                    @csrf
+                                    @method('DELETE')
 
-                            </form>
+                                    <button type="submit" class="text-red-600 hover:underline">
+                                        Eliminar
+                                    </button>
+
+                                </form>
+
+                            @endif
 
                         </div>
 
