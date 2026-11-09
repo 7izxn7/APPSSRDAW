@@ -129,6 +129,24 @@
                                     </button>
                                 </form>
 
+                                {{-- Segundo formulario: eliminar participante --}}
+                                <form
+                                    action="{{ route('projects.participants.destroy', [$project, $participant]) }}"
+                                    method="POST"
+                                    class="mt-3"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        onclick="return confirm('¿Seguro que quieres eliminar a este participante?')"
+                                        class="bg-red-600 text-white px-4 py-2 rounded"
+                                    >
+                                        Eliminar participante
+                                    </button>
+                                </form>
+
                             @else
 
                                 {{-- Los participantes solo pueden consultar --}}

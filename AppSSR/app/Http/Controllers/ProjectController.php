@@ -172,4 +172,23 @@ class ProjectController extends Controller
             ->route('projects.show', $project)
             ->with('success', 'Participante actualizado correctamente.');
     }
+
+    public function removeParticipant(Project $project, User $participant)
+{
+    // Solo el propietario puede eliminar participantes
+    abort_unless($project->user_id === auth()->id(), 403);
+
+    // Comprobar que el usuario pertenece al proyecto
+    abort_unless(
+        $project->participants()->where('users.id', $participant->id)->exists(),
+        404
+    );
+
+    // Eliminar la relación de la tabla pivot
+    $project->participants()->detach($participant->id);
+
+    return redirect()
+        ->route('projects.show', $project)
+        ->with('success', 'Participante eliminado correctamente.');
+}
 }

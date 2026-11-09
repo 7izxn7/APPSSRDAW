@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('projects.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rutas del perfil
@@ -33,6 +33,11 @@ Route::middleware(['auth'])->group(function () {
     '/projects/{project}/participants/{participant}',
         [ProjectController::class, 'updateParticipant']
     )->name('projects.participants.update');
+
+    Route::delete(
+        '/projects/{project}/participants/{participant}',
+        [ProjectController::class, 'removeParticipant']
+    )->name('projects.participants.destroy');
 });
 
 require __DIR__.'/auth.php';
